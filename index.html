@@ -299,7 +299,7 @@
   form label { font-size: 13px; font-weight: 600; color: var(--grey); display: block; margin-bottom: 6px; }
   form input, form textarea {
     width: 100%; padding: 12px 14px; border: 1px solid var(--line); border-radius: 4px;
-    font-family: inherit; font-size: 15px; transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    font-family: inherit; font-size: 16px; transition: border-color 0.2s ease, box-shadow 0.2s ease;
   }
   form input:focus, form textarea:focus { outline: none; border-color: var(--burgundy); box-shadow: 0 0 0 3px rgba(128,0,32,0.12); }
   form textarea { min-height: 100px; resize: vertical; }
@@ -338,6 +338,25 @@
   footer .linkedin-link { color: rgba(255,255,255,0.7); }
   footer .linkedin-link:hover { color: #fff; }
   footer .copyright { margin-top: 22px; color: rgba(255,255,255,0.4); }
+
+  /* Phone-friendly adjustments */
+  @media (max-width: 480px) {
+    .container { padding: 0 18px; }
+    .nav-links { gap: 12px; }
+    .nav-links a.text-link { display: none; }
+    .brand { font-size: 17px; letter-spacing: 0.5px; }
+    .logo-mark { width: 28px; height: 28px; }
+    nav a.cta { padding: 8px 14px; font-size: 13px; letter-spacing: 0.2px; }
+    .hero { padding: 72px 18px 52px; }
+    section { padding: 52px 0; }
+    .stat-block { padding: 30px 20px; }
+    form { padding: 20px; }
+    .timeline { margin: 34px 0 6px; }
+    .tl-label { font-size: 11.5px; }
+    .tl-date { font-size: 10.5px; }
+    .hero-trust-row { gap: 8px 16px; margin-bottom: 28px; }
+    .hero-trust-item { font-size: 12.5px; }
+  }
 </style>
 </head>
 <body>
