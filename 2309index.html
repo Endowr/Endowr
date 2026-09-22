@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Endowr. Your candidate compliance, owned.</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23800020'/%3E%3Ctext x='50' y='68' font-family='Georgia,serif' font-size='60' fill='white' text-anchor='middle'%3EE%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --burgundy: #800020; --burgundy-dark: #5c0018; --cream: #F7F3EF; --ink: #1a1a1a;
+    --grey: #6b6b6b; --line: #e2ddd6; --green: #2e7d4f; --amber: #b8790a; --red: #b3261e;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; color: var(--ink); background: #fff; line-height: 1.6; }
+  h1, h2, h3, .brand, .serif { font-family: 'Libre Baskerville', Georgia, serif; }
+  .container { max-width: 1120px; margin: 0 auto; padding: 0 28px; }
+  .icon { width: 22px; height: 22px; flex-shrink: 0; }
+  .icon-lg { width: 40px; height: 40px; }
+
+  #progress { position: fixed; top: 0; left: 0; height: 3px; width: 0%; background: linear-gradient(90deg, var(--burgundy), #b3324f); z-index: 100; transition: width 0.1s ease-out; }
+
+  /* Apple-style slim utility bar */
+  .utility-bar { background: var(--ink); color: rgba(255,255,255,0.75); font-size: 12px; position: sticky; top: 0; z-index: 51; height: 34px; display: flex; align-items: center; }
+  .utility-bar .container { display: flex; justify-content: center; gap: 28px; padding: 0 28px; width: 100%; }
+  .utility-bar a { color: rgba(255,255,255,0.75); text-decoration: none; transition: color 0.15s ease; }
+  .utility-bar a:hover { color: #fff; }
+
+  nav { position: sticky; top: 34px; z-index: 50; background: rgba(255,255,255,0.9); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+  nav .container { display: flex; align-items: center; justify-content: space-between; padding-top: 14px; padding-bottom: 14px; }
+  .brand-group { display: flex; align-items: center; gap: 10px; }
+  .logo-mark { width: 32px; height: 32px; background: var(--burgundy); border-radius: 4px; display: flex; align-items: center; justify-content: center; color: #fff; font-family: 'Libre Baskerville', serif; font-size: 19px; }
+  .brand { font-size: 21px; letter-spacing: 0.5px; color: var(--burgundy); font-weight: 400; }
+  .nav-links { display: flex; align-items: center; gap: 22px; }
+  .nav-links a.text-link { color: var(--ink); text-decoration: none; font-size: 14px; border-bottom: 1px solid transparent; transition: border-color 0.2s ease, color 0.2s ease; }
+  .nav-links a.text-link:hover { border-color: var(--burgundy); color: var(--burgundy); }
+  .linkedin-link { display: flex; align-items: center; color: var(--ink); transition: color 0.2s ease; }
+  .linkedin-link:hover { color: var(--burgundy); }
+  .linkedin-link .icon { width: 20px; height: 20px; }
+  nav a.cta, .btn-primary-link { background: var(--burgundy); color: #fff; text-decoration: none; padding: 11px 20px; border-radius: 4px; font-size: 14px; font-weight: 600; letter-spacing: 0.2px; transition: background 0.2s ease, transform 0.2s ease; display: inline-block; }
+  nav a.cta:hover, .btn-primary-link:hover { background: var(--burgundy-dark); transform: translateY(-2px); }
+  .btn-secondary-link { color: var(--burgundy); text-decoration: none; padding: 11px 20px; border-radius: 4px; font-size: 14px; font-weight: 600; border: 1px solid var(--burgundy); display: inline-block; transition: background 0.2s ease; }
+  .btn-secondary-link:hover { background: rgba(128,0,32,0.06); }
+
+  /* Apple-style hero: centred, generous whitespace, no gimmicks */
+  .hero { background: #fff; text-align: center; padding: 90px 24px 40px; }
+  .hero .eyebrow-row { margin-bottom: 18px; }
+  .eyebrow { text-transform: uppercase; letter-spacing: 1.8px; font-size: 11.5px; color: var(--burgundy); font-weight: 700; }
+  .hero h1 { font-size: clamp(36px, 6vw, 64px); line-height: 1.1; font-weight: 400; margin: 0 auto 24px; color: var(--ink); max-width: 780px; }
+  .hero h1 em { font-style: normal; color: var(--burgundy); }
+  .hero .sub { font-size: 18px; color: var(--grey); max-width: 560px; margin: 0 auto 34px; }
+  .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-bottom: 60px; }
+
+  /* Product mockup panel, replaces photography */
+  .mockup-wrap { max-width: 900px; margin: 0 auto; }
+  .mockup-window { background: #fff; border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 30px 70px rgba(0,0,0,0.12); overflow: hidden; text-align: left; }
+  .mockup-chrome { background: #f0ebe5; padding: 12px 16px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid var(--line); }
+  .mockup-dot { width: 10px; height: 10px; border-radius: 50%; background: #d8d0c8; }
+  .mockup-title { margin-left: 10px; font-size: 12px; color: var(--grey); font-family: 'Inter', sans-serif; }
+  .mockup-body { padding: 22px 24px; }
+  .mockup-row { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid var(--line); }
+  .mockup-row:last-child { border-bottom: none; }
+  .mockup-name { font-weight: 600; font-size: 14.5px; color: var(--ink); }
+  .mockup-item { font-size: 12.5px; color: var(--grey); margin-top: 2px; }
+  .mockup-badge { font-size: 11px; font-weight: 600; padding: 4px 11px; border-radius: 10px; color: #fff; white-space: nowrap; }
+
+  section { padding: 90px 0; }
+  section.alt { background: var(--cream); }
+  h2.section-head { font-size: clamp(26px, 4vw, 36px); font-weight: 400; margin: 0 0 20px; }
+  .lead { font-size: 17px; color: var(--grey); max-width: 640px; margin: 0 0 40px; }
+
+  .reveal { opacity: 0; transform: translateY(36px) scale(0.97); filter: blur(6px); transition: opacity 0.9s cubic-bezier(.16,.84,.44,1), transform 0.9s cubic-bezier(.16,.84,.44,1), filter 0.9s cubic-bezier(.16,.84,.44,1); }
+  .reveal.in { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+  .reveal-left { opacity: 0; transform: translateX(-48px); transition: opacity 0.8s cubic-bezier(.16,.84,.44,1), transform 0.8s cubic-bezier(.16,.84,.44,1); }
+  .reveal-left.in { opacity: 1; transform: translateX(0); }
+  .reveal-right { opacity: 0; transform: translateX(48px); transition: opacity 0.8s cubic-bezier(.16,.84,.44,1), transform 0.8s cubic-bezier(.16,.84,.44,1); }
+  .reveal-right.in { opacity: 1; transform: translateX(0); }
+
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 20px; }
+  @media (max-width: 720px) { .split { grid-template-columns: 1fr; } }
+  .split .card { border: 1px solid var(--line); border-radius: 6px; padding: 28px; background: #fff; }
+  .split .card.yes { border-color: var(--burgundy); background: #fdf5f7; }
+  .split .card h3 { font-size: 15px; text-transform: uppercase; letter-spacing: 1px; font-family: 'Inter', sans-serif; margin: 0 0 16px; color: var(--grey); }
+  .split .card.yes h3 { color: var(--burgundy); }
+  .split ul { list-style: none; padding: 0; margin: 0; }
+  .split li { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 14px; font-size: 15px; }
+  .split li .icon { color: var(--grey); margin-top: 1px; }
+  .split .card.yes li .icon { color: var(--burgundy); }
+
+  .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-top: 30px; }
+  @media (max-width: 980px) { .steps { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .steps { grid-template-columns: 1fr; } }
+  .step { background: #fff; border: 1px solid var(--line); border-radius: 6px; padding: 26px 22px; cursor: pointer; transition: box-shadow 0.25s ease, border-color 0.25s ease, transform 0.25s ease, opacity 0.7s cubic-bezier(.16,.84,.44,1), filter 0.7s cubic-bezier(.16,.84,.44,1); opacity: 0; transform: translateY(30px) scale(0.96); filter: blur(5px); }
+  .step.in { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+  .step:hover { box-shadow: 0 14px 32px rgba(128,0,32,0.12); border-color: var(--burgundy); transform: translateY(-4px); }
+  .step.in:hover { transform: translateY(-4px) scale(1); }
+  .step .icon-lg { color: var(--burgundy); margin-bottom: 12px; }
+  .step .num { font-family: 'Libre Baskerville', serif; font-size: 14px; color: var(--grey); margin-bottom: 4px; }
+  .step h3 { font-size: 17px; margin: 0 0 8px; font-weight: 600; font-family: 'Inter', sans-serif; }
+  .step p { font-size: 13.5px; color: var(--grey); margin: 0; max-height: 0; overflow: hidden; transition: max-height 0.35s ease, margin-top 0.35s ease; }
+  .step.open p { max-height: 220px; margin-top: 10px; }
+  .step .hint { font-size: 12px; color: var(--burgundy); margin-top: 12px; }
+
+  .timeline { display: flex; align-items: flex-start; justify-content: space-between; margin: 44px 0 10px; position: relative; }
+  .timeline::before { content: ""; position: absolute; top: 11px; left: 5%; right: 5%; height: 2px; background: var(--line); }
+  .tl-point { position: relative; z-index: 1; text-align: center; flex: 1; }
+  .tl-dot { width: 24px; height: 24px; border-radius: 50%; background: #fff; border: 2px solid var(--burgundy); margin: 0 auto 14px; }
+  .tl-point.active .tl-dot { background: var(--burgundy); }
+  .tl-label { font-size: 13px; font-weight: 600; color: var(--ink); font-family: 'Inter', sans-serif; }
+  .tl-date { font-size: 12px; color: var(--grey); margin-top: 4px; }
+
+  /* Official source citation card */
+  .source-card { background: #fff; border: 1px solid var(--line); border-left: 4px solid var(--burgundy); border-radius: 4px; padding: 26px 28px; margin-top: 40px; }
+  .source-card .source-label { display:flex; align-items:center; gap:8px; font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700; color: var(--grey); margin-bottom: 14px; }
+  .source-card .source-label .icon { width:16px; height:16px; color: var(--burgundy); }
+  .source-card blockquote { margin: 0 0 14px; font-family: 'Libre Baskerville', serif; font-size: 18px; color: var(--ink); font-style: italic; line-height: 1.5; }
+  .source-card .source-meta { font-size: 13.5px; color: var(--grey); }
+  .source-card .source-meta a { color: var(--burgundy); text-decoration: none; border-bottom: 1px solid var(--burgundy); font-weight: 600; }
+
+  .stat-block { background: var(--ink); color: #fff; border-radius: 8px; padding: 50px 40px; text-align: center; margin-top: 40px; }
+  .stat-block .figure { font-family: 'Libre Baskerville', serif; font-size: clamp(42px, 7vw, 64px); color: #fff; }
+  .stat-block p { color: rgba(255,255,255,0.75); max-width: 520px; margin: 10px auto 0; font-size: 15px; }
+
+  .calc-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 30px; align-items: start; }
+  @media (max-width: 780px) { .calc-wrap { grid-template-columns: 1fr; } }
+  .calc-inputs { background: #fff; border: 1px solid var(--line); border-radius: 8px; padding: 28px; }
+  .calc-field { margin-bottom: 18px; }
+  .calc-field label { display: block; font-size: 13px; font-weight: 600; color: var(--grey); margin-bottom: 6px; }
+  .calc-field input[type=range] { width: 100%; accent-color: var(--burgundy); }
+  .calc-field .val { font-family: 'Libre Baskerville', serif; font-size: 22px; color: var(--burgundy); }
+  .calc-output { background: var(--burgundy); color: #fff; border-radius: 8px; padding: 32px 28px; }
+  .calc-output .row { display: flex; justify-content: space-between; align-items: baseline; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.2); }
+  .calc-output .row:last-child { border-bottom: none; }
+  .calc-output .row span:first-child { font-size: 13.5px; color: rgba(255,255,255,0.8); }
+  .calc-output .row span:last-child { font-family: 'Libre Baskerville', serif; font-size: 26px; }
+  .calc-output .note { font-size: 12.5px; color: rgba(255,255,255,0.65); margin-top: 16px; }
+
+  .trust-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 30px; }
+  @media (max-width: 780px) { .trust-grid { grid-template-columns: 1fr; } }
+  .trust-card { border: 1px solid var(--line); border-radius: 6px; padding: 24px; background: #fff; }
+  .trust-card .icon-lg { color: var(--burgundy); margin-bottom: 12px; }
+  .trust-card h3 { font-size: 16px; margin: 0 0 8px; font-family: 'Inter', sans-serif; font-weight: 600; }
+  .trust-card p { font-size: 13.5px; color: var(--grey); margin: 0; }
+
+  /* About us */
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: start; margin-top: 30px; }
+  @media (max-width: 820px) { .about-grid { grid-template-columns: 1fr; } }
+  .about-grid p { font-size: 15.5px; color: var(--grey); margin: 0 0 16px; }
+  .about-stats { display: flex; flex-direction: column; gap: 24px; }
+  .about-stat { border-left: 3px solid var(--burgundy); padding-left: 18px; }
+  .about-stat .num { font-family: 'Libre Baskerville', serif; font-size: 30px; color: var(--burgundy); }
+  .about-stat .label { font-size: 13px; color: var(--grey); margin-top: 2px; }
+
+  .pilot { background: var(--burgundy); color: #fff; }
+  .pilot h2 { color: #fff; }
+  .pilot .lead { color: rgba(255,255,255,0.85); }
+  .pilot-box { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.25); border-radius: 8px; padding: 34px; margin-top: 30px; }
+  .pilot-box ul { list-style: none; padding: 0; margin: 0; }
+  .pilot-box li { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 14px; opacity: 0; transform: translateX(-16px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .pilot-box li.in { opacity: 1; transform: translateX(0); }
+  .pilot-box li .icon { color: #fff; margin-top: 1px; }
+
+  form { margin-top: 40px; background: #fff; color: var(--ink); border-radius: 8px; padding: 32px; display: grid; gap: 16px; }
+  form label { font-size: 13px; font-weight: 600; color: var(--grey); display: block; margin-bottom: 6px; }
+  form input, form textarea { width: 100%; padding: 12px 14px; border: 1px solid var(--line); border-radius: 4px; font-family: inherit; font-size: 15px; transition: border-color 0.2s ease, box-shadow 0.2s ease; }
+  form input:focus, form textarea:focus { outline: none; border-color: var(--burgundy); box-shadow: 0 0 0 3px rgba(128,0,32,0.12); }
+  form textarea { min-height: 100px; resize: vertical; }
+  form button { background: var(--burgundy); color: #fff; border: none; padding: 14px 24px; border-radius: 4px; font-size: 15px; font-weight: 600; cursor: pointer; justify-self: start; transition: background 0.2s ease, transform 0.2s ease; }
+  form button:hover { background: var(--burgundy-dark); transform: translateY(-2px); }
+  .form-note { font-size: 13px; color: var(--grey); margin-top: -6px; }
+
+  .faq-item { border-bottom: 1px solid var(--line); padding: 20px 0; cursor: pointer; opacity: 0; transform: translateY(16px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .faq-item.in { opacity: 1; transform: translateY(0); }
+  .faq-item .q { display: flex; justify-content: space-between; align-items: center; font-size: 17px; font-weight: 600; font-family: 'Inter', sans-serif; }
+  .faq-item .q .plus { font-size: 22px; color: var(--burgundy); transition: transform 0.25s ease; }
+  .faq-item.open .q .plus { transform: rotate(45deg); }
+  .faq-item .a { max-height: 0; overflow: hidden; transition: max-height 0.35s ease, margin-top 0.35s ease; color: var(--grey); font-size: 15px; }
+  .faq-item.open .a { max-height: 240px; margin-top: 12px; }
+
+  .contact-strip { background: var(--cream); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); text-align: center; padding: 30px 24px; font-size: 15px; scroll-margin-top: 80px; }
+  .contact-strip a { color: var(--burgundy); font-weight: 600; text-decoration: none; border-bottom: 1px solid var(--burgundy); }
+
+  footer { background: var(--ink); color: rgba(255,255,255,0.6); text-align: center; padding: 44px 24px; font-size: 13px; }
+  footer .brand-group { justify-content: center; margin-bottom: 14px; }
+  footer .brand { color: #fff; font-size: 20px; }
+  footer .contact-label { text-transform: uppercase; letter-spacing: 1.5px; font-size: 11px; color: rgba(255,255,255,0.45); margin-bottom: 6px; }
+  footer a { color: rgba(255,255,255,0.85); text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.3); }
+  footer .footer-links { display: flex; align-items: center; justify-content: center; gap: 18px; margin-top: 18px; }
+  footer .linkedin-link { color: rgba(255,255,255,0.7); }
+  footer .linkedin-link:hover { color: #fff; }
+  footer .copyright { margin-top: 22px; color: rgba(255,255,255,0.4); }
+
+  #toTop {
+    position: fixed; bottom: 26px; right: 26px; width: 44px; height: 44px; border-radius: 50%;
+    background: var(--burgundy); color: #fff; border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 22px rgba(0,0,0,0.2);
+    opacity: 0; pointer-events: none; transform: translateY(10px);
+    transition: opacity 0.25s ease, transform 0.25s ease, background 0.2s ease;
+    z-index: 60;
+  }
+  #toTop.show { opacity: 1; pointer-events: auto; transform: translateY(0); }
+  .annotated-window { background: #fff; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; margin-top: 34px; }
+  .annotated-row { padding: 18px 22px; border-bottom: 1px solid var(--line); }
+  .annotated-row:last-child { border-bottom: none; }
+  .annotated-row .row-top { display: flex; justify-content: space-between; align-items: center; }
+  .annotated-row .note-chip { display: flex; gap: 8px; align-items: flex-start; margin-top: 10px; padding: 10px 12px; background: #fdf5f7; border-left: 3px solid var(--burgundy); border-radius: 4px; font-size: 13px; color: var(--ink); }
+  .annotated-row .note-chip .icon { width: 16px; height: 16px; color: var(--burgundy); margin-top: 1px; flex-shrink: 0; }
+
+  /* Ambient backdrops: three related patterns, same burgundy tone, varied per section for rhythm */
+  .bg-grid {
+    background-image:
+      linear-gradient(rgba(128,0,32,0.09) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(128,0,32,0.09) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+  .bg-diagonal {
+    background-image: repeating-linear-gradient(45deg, rgba(128,0,32,0.08) 0, rgba(128,0,32,0.08) 1px, transparent 1px, transparent 34px);
+    background-size: 48px 48px;
+  }
+  .bg-dots {
+    background-image: radial-gradient(rgba(128,0,32,0.16) 1.2px, transparent 1.6px);
+    background-size: 26px 26px;
+  }
+
+  /* Carousel */
+  .carousel { margin-top: 30px; }
+  .carousel-viewport { overflow: hidden; border-radius: 8px; }
+  .carousel-track { display: flex; transition: transform 0.45s cubic-bezier(.16,.84,.44,1); }
+  .carousel-slide { min-width: 100%; box-sizing: border-box; }
+  .carousel-controls { display: flex; align-items: center; justify-content: center; gap: 20px; margin-top: 22px; }
+  .carousel-arrow {
+    width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--line); background: #fff;
+    color: var(--burgundy); cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s ease, border-color 0.2s ease;
+  }
+  .carousel-arrow:hover { background: #fdf5f7; border-color: var(--burgundy); }
+  .carousel-dots { display: flex; gap: 8px; }
+  .carousel-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--line); border: none; cursor: pointer; padding: 0; transition: background 0.2s ease, transform 0.2s ease; }
+  .carousel-dot.active { background: var(--burgundy); transform: scale(1.25); }
+  .carousel-slide .step { opacity: 1; transform: none; filter: none; cursor: default; }
+  .carousel-slide .step:hover { transform: none; box-shadow: none; border-color: var(--line); }
+
+  /* Instagram-post style slides for "How it works" */
+  .post-card {
+    position: relative; overflow: hidden;
+    background: var(--burgundy); color: #fff; border-radius: 16px;
+    aspect-ratio: 4 / 4.4; width: min(380px, 84vw); margin: 0 auto;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 32px 30px;
+  }
+  .post-card .big-num {
+    position: absolute; top: -18px; left: 6px;
+    font-family: 'Libre Baskerville', serif; font-size: clamp(120px, 24vw, 170px); line-height: 1;
+    color: rgba(255,255,255,0.1); user-select: none; pointer-events: none;
+  }
+  .post-card .post-icon {
+    width: 76px; height: 76px; border-radius: 50%; background: rgba(255,255,255,0.14);
+    display: flex; align-items: center; justify-content: center; margin-bottom: 18px;
+  }
+  .post-card .post-icon svg { width: 38px; height: 38px; color: #fff; }
+  .post-card h3 { font-size: clamp(24px, 3.4vw, 32px); color: #fff; margin: 0 0 10px; font-weight: 400; }
+  .post-card p { font-size: clamp(15px, 1.7vw, 17px); color: rgba(255,255,255,0.85); margin: 0; line-height: 1.5; }
+  .post-card .post-tag { position: relative; z-index: 1; font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.6); margin-bottom: 8px; }
+  @media (max-width: 480px) { .post-card { aspect-ratio: 4 / 4.9; width: 88vw; padding: 26px 24px; } }
+
+  /* Soft blended transitions between sections, instead of hard colour cuts */
+  .blend-zone { height: 64px; margin-top: -64px; position: relative; pointer-events: none; }
+  .blend-to-cream { background: linear-gradient(to bottom, rgba(255,255,255,0), var(--cream)); }
+  .blend-to-white { background: linear-gradient(to bottom, rgba(247,243,239,0), #fff); }
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<button id="toTop" aria-label="Back to top" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
+
+<svg width="0" height="0" style="position:absolute">
+<defs>
+  <g id="ic-check"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8 12l3 3 5-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g>
+  <g id="ic-cross"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><path d="M9 9l6 6M15 9l-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></g>
+  <g id="ic-inbox"><path d="M22 12h-6l-2 3h-4l-2-3H2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></g>
+  <g id="ic-search"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></g>
+  <g id="ic-bell"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M13.73 21a2 2 0 0 1-3.46 0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></g>
+  <g id="ic-flag"><path d="M4 22V4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M4 4h14l-2.5 4L18 12H4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></g>
+  <g id="ic-lock"><rect x="4" y="10" width="16" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 10V7a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></g>
+  <g id="ic-file"><path d="M14 3v4a1 1 0 0 0 1 1h4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></g>
+  <g id="ic-eye"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/></g>
+  <g id="ic-linkedin"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.03-1.85-3.03-1.85 0-2.14 1.45-2.14 2.94v5.66H9.34V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.61 0 4.28 2.38 4.28 5.47v6.27ZM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14ZM7.12 20.45H3.56V9h3.56v11.45Z" fill="currentColor"/></g>
+  <g id="ic-instagram"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17.2" cy="6.8" r="1.1" fill="currentColor"/></g>
+  <g id="ic-gov"><path d="M12 3 3 8v2h18V8l-9-5Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M5 10v9M9 10v9M15 10v9M19 10v9M3 21h18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></g>
+  <g id="ic-info"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 11v6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="7.5" r="1" fill="currentColor"/></g>
+</defs>
+</svg>
+
+<div class="utility-bar">
+  <div class="container">
+    <a href="#pilot">Pilot Programme</a>
+    <a href="#how">How It Works</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#about">About</a>
+    <a href="#faq">FAQ</a>
+    <a href="#contact">Contact</a>
+  </div>
+</div>
+
+<nav>
+  <div class="container">
+    <div class="brand-group">
+      <div class="logo-mark">E</div>
+      <span class="brand">Endowr.</span>
+    </div>
+    <div class="nav-links">
+      <a class="linkedin-link" href="https://instagram.com/_endowr" target="_blank" rel="noopener" aria-label="Endowr on Instagram">
+        <svg class="icon" viewBox="0 0 24 24"><use href="#ic-instagram"/></svg>
+      </a>
+      <a class="linkedin-link" href="https://linkedin.com/endowr" target="_blank" rel="noopener" aria-label="Endowr on LinkedIn">
+        <svg class="icon" viewBox="0 0 24 24"><use href="#ic-linkedin"/></svg>
+      </a>
+      <a class="text-link" href="#contact">Contact us</a>
+      <a class="cta" href="#pilot">Partner with us</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero bg-grid">
+  <div class="eyebrow-row"><span class="eyebrow">Recruitment compliance, without the chasing</span></div>
+  <h1>Your consultants place the workers.<br>We keep their <em>compliance</em> moving.</h1>
+  <p class="sub">Endowr tracks, chases, and escalates the compliance paperwork behind every placed worker, so your recruitment team doesn't have to.</p>
+  <div class="hero-actions">
+    <a class="btn-primary-link" href="#pilot">Become a pilot partner</a>
+    <a class="btn-secondary-link" href="#how">See how it works</a>
+  </div>
+
+  <div class="mockup-wrap reveal">
+    <div class="mockup-window">
+      <div class="mockup-chrome">
+        <span class="mockup-dot"></span><span class="mockup-dot"></span><span class="mockup-dot"></span>
+        <span class="mockup-title">Endowr &mdash; Compliance Board</span>
+      </div>
+      <div class="mockup-body">
+        <div class="mockup-row">
+          <div><div class="mockup-name">Sarah Jennings</div><div class="mockup-item">NMC Revalidation &middot; due in 4 days</div></div>
+          <span class="mockup-badge" style="background:var(--red);">Chasing</span>
+        </div>
+        <div class="mockup-row">
+          <div><div class="mockup-name">Priya Chandran</div><div class="mockup-item">Basic Life Support &middot; due in 30 days</div></div>
+          <span class="mockup-badge" style="background:var(--amber);">Monitoring</span>
+        </div>
+        <div class="mockup-row">
+          <div><div class="mockup-name">Daniel Kerr</div><div class="mockup-item">Enhanced DBS Check &middot; on file</div></div>
+          <span class="mockup-badge" style="background:var(--green);">Up to date</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="blend-zone blend-to-cream"></div>
+
+<section class="alt bg-diagonal" id="what">
+  <div class="container reveal">
+    <div class="eyebrow" style="margin-bottom:14px;">What we're not</div>
+    <h2 class="section-head">We're not another platform to log into.</h2>
+    <p class="lead">You need the actual chasing done, by someone who owns the outcome, not a second dashboard competing for your team's attention.</p>
+    <div class="split">
+      <div class="card reveal-left">
+        <h3>What Endowr isn't</h3>
+        <ul>
+          <li><svg class="icon" viewBox="0 0 24 24"><use href="#ic-cross"/></svg><span>Not another ATS or compliance dashboard</span></li>
+          <li><svg class="icon" viewBox="0 0 24 24"><use href="#ic-cross"/></svg><span>Not a tool your team has to learn and operate</span></li>
+          <li><svg class="icon" viewBox="0 0 24 24"><use href="#ic-cross"/></svg><span>Not involved in onboarding, contracts, or first placement</span></li>
+          <li><svg class="icon" viewBox="0 0 24 24"><use href="#ic-cross"/></svg><span>Not making legal or compliance judgement calls. That stays with you</span></li>
+        </ul>
+      </div>
+      <div class="card yes reveal-right">
+        <h3>What Endowr is</h3>
+        <ul>
+          <li><svg class="icon" viewBox="0 0 24 24"><use href="#ic-check"/></svg><span>A team that works alongside the systems you already use</span></li>
+          <li><svg class="icon" viewBox="0 0 24 24"><use href="#ic-check"/></svg><span>The people who actually chase renewals, day to day</span></li>
+          <li><svg class="icon" viewBox="0 0 24 24"><use href="#ic-check"/></svg><span>A second set of eyes tracking what's on file and what's missing</span></li>
+          <li><svg class="icon" viewBox="0 0 24 24"><use href="#ic-check"/></svg><span>The ones your consultants no longer have to be</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="reality" class="pilot">
+  <div class="container reveal">
+    <div class="eyebrow" style="color:rgba(255,255,255,0.85); margin-bottom:14px;">The reality</div>
+    <h2 class="section-head">What this actually looks like, day to day.</h2>
+    <p class="lead" style="color:rgba(255,255,255,0.85);">It's not one deadline. It's several, per worker, all running on different clocks.</p>
+    <div class="annotated-window">
+      <div class="annotated-row">
+        <div class="row-top">
+          <div><div class="mockup-name">Sarah Jennings</div><div class="mockup-item">NMC Revalidation &middot; due in 4 days</div></div>
+          <span class="mockup-badge" style="background:var(--red);">Chasing</span>
+        </div>
+        <div class="note-chip"><svg class="icon" viewBox="0 0 24 24"><use href="#ic-info"/></svg><span>A 3-year revalidation cycle, tracked separately from her DBS and right-to-work dates.</span></div>
+      </div>
+      <div class="annotated-row">
+        <div class="row-top">
+          <div><div class="mockup-name">Marcus Oduya</div><div class="mockup-item">Enhanced DBS Check &middot; due in 2 days</div></div>
+          <span class="mockup-badge" style="background:var(--burgundy);">Escalated</span>
+        </div>
+        <div class="note-chip"><svg class="icon" viewBox="0 0 24 24"><use href="#ic-info"/></svg><span>Escalated after 3 unanswered chases across email and phone. Someone has to notice and act on that.</span></div>
+      </div>
+      <div class="annotated-row">
+        <div class="row-top">
+          <div><div class="mockup-name">Priya Chandran</div><div class="mockup-item">HCPC Renewal &middot; due in 12 days</div></div>
+          <span class="mockup-badge" style="background:var(--amber);">Monitoring</span>
+        </div>
+        <div class="note-chip"><svg class="icon" viewBox="0 0 24 24"><use href="#ic-info"/></svg><span>A different registration body, different rules, different portal, to check than the row above.</span></div>
+      </div>
+    </div>
+    <p class="lead" style="margin-top:24px; margin-bottom:0; color:rgba(255,255,255,0.85);">Multiply that across every worker on your books, and the scale of it stops being an admin task and starts being a real operational risk.</p>
+  </div>
+</section>
+
+<section id="how" class="bg-grid">
+  <div class="container reveal">
+    <div class="eyebrow" style="margin-bottom:14px;">How it works</div>
+    <h2 class="section-head">Handover. Track. Chase. Escalate.</h2>
+    <p class="lead">A deliberately narrow scope. We start the moment a worker is already live on your system, and we stay out of your onboarding process entirely.</p>
+    <div class="carousel" data-carousel>
+      <div class="carousel-viewport">
+        <div class="carousel-track">
+          <div class="carousel-slide">
+            <div class="post-card">
+              <div class="big-num">01</div>
+              <div class="post-tag">Step one</div>
+              <div class="post-icon"><svg viewBox="0 0 24 24"><use href="#ic-inbox"/></svg></div>
+              <h3>Handover</h3>
+              <p>Once your team's onboarded a worker (contracts, bank details, induction all done), their file is simply passed to us. We're not part of that first step at all.</p>
+            </div>
+          </div>
+          <div class="carousel-slide">
+            <div class="post-card">
+              <div class="big-num">02</div>
+              <div class="post-tag">Step two</div>
+              <div class="post-icon"><svg viewBox="0 0 24 24"><use href="#ic-search"/></svg></div>
+              <h3>Track</h3>
+              <p>We keep a live register of what's on file and what's missing or expiring: right-to-work documents, DBS certificates, licences, references. We flag gaps straight back to you.</p>
+            </div>
+          </div>
+          <div class="carousel-slide">
+            <div class="post-card">
+              <div class="big-num">03</div>
+              <div class="post-tag">Step three</div>
+              <div class="post-icon"><svg viewBox="0 0 24 24"><use href="#ic-bell"/></svg></div>
+              <h3>Chase</h3>
+              <p>We chase the worker directly for renewals, follow up until we get a response, and log everything back into your system, so your files stay current without your team lifting a finger.</p>
+            </div>
+          </div>
+          <div class="carousel-slide">
+            <div class="post-card">
+              <div class="big-num">04</div>
+              <div class="post-tag">Step four</div>
+              <div class="post-icon"><svg viewBox="0 0 24 24"><use href="#ic-flag"/></svg></div>
+              <h3>Escalate</h3>
+              <p>If a worker stays unresponsive, or if something needs a judgement call, we bring it straight back to you. We don't make legal or compliance decisions on your behalf, ever.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-controls">
+        <button class="carousel-arrow" data-prev aria-label="Previous step">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <div class="carousel-dots" data-dots></div>
+        <button class="carousel-arrow" data-next aria-label="Next step">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="blend-zone blend-to-cream"></div>
+
+<section class="alt bg-diagonal">
+  <div class="container reveal">
+    <div class="eyebrow" style="margin-bottom:14px;">Why now</div>
+    <h2 class="section-head" id="why-now-heading">The rules are changing on 1 October 2026.</h2>
+    <p class="lead">Section 48 of the Border Security, Asylum and Immigration Act 2025 extends right-to-work checks beyond direct employees to agency workers, subcontractors, and gig workers. If you've only ever checked your core staff, that's about to change.</p>
+    <p class="lead" id="why-now-status" style="font-weight: 600; color: var(--burgundy); margin-top: -24px;"></p>
+    <div class="timeline">
+      <div class="tl-point active" id="tl-today"><div class="tl-dot"></div><div class="tl-label">Today</div><div class="tl-date">Core staff checked</div></div>
+      <div class="tl-point active" id="tl-oct"><div class="tl-dot"></div><div class="tl-label">1 Oct 2026</div><div class="tl-date" id="tl-oct-date">Scope expands</div></div>
+      <div class="tl-point" id="tl-ongoing"><div class="tl-dot"></div><div class="tl-label">Ongoing</div><div class="tl-date">Every placed worker</div></div>
+    </div>
+
+    <div class="source-card">
+      <div class="source-label"><svg class="icon" viewBox="0 0 24 24"><use href="#ic-gov"/></svg>OFFICIAL SOURCE &middot; LEGISLATION.GOV.UK</div>
+      <blockquote>&ldquo;Extension of prohibition on employment to other working arrangements.&rdquo;</blockquote>
+      <div class="source-meta">Section 48, Border Security, Asylum and Immigration Act 2025 (Royal Assent 2 December 2025). Read the full text at <a href="https://www.legislation.gov.uk/ukpga/2025/31/section/48" target="_blank" rel="noopener">legislation.gov.uk</a>.</div>
+    </div>
+
+    <div class="stat-block">
+      <div class="figure" id="stat-figure">£0</div>
+      <p>The civil penalty exposure per worker without the right to work. A concrete, quantifiable reason to get ahead of this now, not after an audit finds the gap.</p>
+    </div>
+  </div>
+</section>
+
+<div class="blend-zone blend-to-white"></div>
+
+<section class="bg-dots" id="business-case">
+  <div class="container reveal">
+    <div class="eyebrow" style="margin-bottom:14px;">The business case</div>
+    <h2 class="section-head">What's compliance admin actually costing you?</h2>
+    <p class="lead">Drag the sliders to estimate the monthly time your team spends chasing this, and what that time is actually worth.</p>
+    <div class="calc-wrap">
+      <div class="calc-inputs">
+        <div class="calc-field"><label>Number of placed workers</label><input type="range" id="calcWorkers" min="10" max="500" value="100" oninput="updateCalc()"><div class="val" id="calcWorkersVal">100</div></div>
+        <div class="calc-field"><label>Average time per worker, per month</label><input type="range" id="calcHoursSlider" min="0.25" max="8" step="0.25" value="1" oninput="updateCalc()"><div class="val" id="calcMinutesVal">1 hr</div></div>
+        <div class="calc-field"><label>Approx. hourly admin cost</label><input type="range" id="calcRate" min="12" max="60" value="20" oninput="updateCalc()"><div class="val" id="calcRateVal">£20</div></div>
+      </div>
+      <div class="calc-output">
+        <div class="row"><span>Estimated monthly admin time</span><span id="calcHours">25.0 hrs</span></div>
+        <div class="row"><span>Estimated monthly admin cost</span><span id="calcCost">£625</span></div>
+        <div class="row"><span>Estimated annual cost</span><span id="calcAnnual">£7,500</span></div>
+        <div class="note">Rough estimate based on your own figures, not a quote. Every agency's actual time spent varies.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="bg-grid" id="pricing">
+  <div class="container reveal">
+    <div class="eyebrow" style="margin-bottom:14px;">Pricing</div>
+    <h2 class="section-head">Straightforward, and sized to you.</h2>
+    <p class="lead">We don't publish a flat price list, because a 20-worker agency and a 200-worker agency have genuinely different needs. For most agencies, we'd expect the Endowr rate to sit comfortably below what that admin time is currently costing you. During the pilot specifically, it's offered at a significantly reduced rate, in exchange for close collaboration and honest feedback. Exact pricing is always confirmed individually, before anything is agreed.</p>
+    <div class="hero-actions" style="justify-content:flex-start; margin-bottom:0;">
+      <a class="btn-primary-link" href="#business-case">Estimate your own admin cost</a>
+      <a class="btn-secondary-link" href="#pilot">Become a pilot partner</a>
+    </div>
+  </div>
+</section>
+
+<section class="pilot" id="about">
+  <div class="container reveal">
+    <div class="eyebrow" style="color:rgba(255,255,255,0.85); margin-bottom:14px;">About Endowr</div>
+    <h2 class="section-head">A new, focused company, built by talking to agencies first.</h2>
+    <div class="about-grid" style="grid-template-columns: 1fr; max-width: 720px;">
+      <div>
+        <p style="color:rgba(255,255,255,0.85);">Endowr is an early-stage company. We're not a large, established vendor, and we're not going to pretend otherwise, we're a small, focused team building a specific service, from the ground up, by speaking directly with recruitment agencies about a problem they actually have.</p>
+        <p style="color:rgba(255,255,255,0.85);">That's a deliberate starting point. Rather than building a broad platform and hoping it fits, we started with real conversations about how compliance chasing actually works day to day, what falls through the cracks, and what agencies would genuinely value. The pilot programme is a continuation of that approach: working closely with a small number of agencies to shape the service around what actually helps, before scaling it further.</p>
+        <p style="color:rgba(255,255,255,0.85);">We think that's a better way to build something worth relying on, even if it means starting smaller and moving more carefully than a bigger company might.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="bg-diagonal">
+  <div class="container reveal">
+    <div class="eyebrow" style="margin-bottom:14px;">Trust and security</div>
+    <h2 class="section-head">Sensitive information, handled with care.</h2>
+    <p class="lead">We understand what's at stake with this kind of data. A few things worth knowing upfront.</p>
+    <div class="trust-grid">
+      <div class="trust-card">
+        <svg class="icon-lg" viewBox="0 0 24 24"><use href="#ic-eye"/></svg>
+        <h3>We track status, not documents</h3>
+        <p>We work with dates and completeness status, not scanned certificates or ID documents themselves. That keeps what we hold deliberately minimal.</p>
+      </div>
+      <div class="trust-card">
+        <svg class="icon-lg" viewBox="0 0 24 24"><use href="#ic-lock"/></svg>
+        <h3>Narrow, deliberate scope</h3>
+        <p>We never touch onboarding, contracts, or first placement. The smaller the scope, the smaller the exposure, for you and for us.</p>
+      </div>
+      <div class="trust-card">
+        <svg class="icon-lg" viewBox="0 0 24 24"><use href="#ic-file"/></svg>
+        <h3>Confirmed before you commit</h3>
+        <p>Specific security measures and data handling terms are confirmed and agreed with you directly before any pilot begins, not buried in small print after.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="pilot" class="pilot">
+  <div class="container reveal">
+    <div class="eyebrow" style="color:rgba(255,255,255,0.85);">Right now</div>
+    <h2 class="section-head">We're looking for pilot partners.</h2>
+    <p class="lead">We're working with a small number of recruitment agencies to shape this properly: real collaboration, real feedback, before this goes to full rate.</p>
+    <div class="pilot-box">
+      <ul>
+        <li><svg class="icon" viewBox="0 0 24 24"><use href="#ic-check"/></svg><span>A significantly reduced rate for the pilot period, in exchange for close collaboration</span></li>
+        <li><svg class="icon" viewBox="0 0 24 24"><use href="#ic-check"/></svg><span>Direct input into how the service actually works for your team</span></li>
+        <li><svg class="icon" viewBox="0 0 24 24"><use href="#ic-check"/></svg><span>No change to your existing systems or onboarding process</span></li>
+        <li><svg class="icon" viewBox="0 0 24 24"><use href="#ic-check"/></svg><span>A defined trial period with an honest checkpoint conversation on how it's gone</span></li>
+      </ul>
+    </div>
+    <form id="pilot-form">
+      <div><label for="name">Your name</label><input type="text" id="name" required></div>
+      <div><label for="agency">Agency name</label><input type="text" id="agency" required></div>
+      <div><label for="email">Email</label><input type="email" id="email" required></div>
+      <div><label for="message">Anything you'd like us to know</label><textarea id="message" placeholder="e.g. how many workers you place, which sector, current pain points"></textarea></div>
+      <button type="submit">Get in touch</button>
+      <p class="form-note">This opens your email client with your details pre-filled. Nothing is stored or sent anywhere automatically.</p>
+    </form>
+  </div>
+</section>
+
+<section class="alt bg-dots" id="faq">
+  <div class="container reveal">
+    <div class="eyebrow" style="margin-bottom:14px;">Questions</div>
+    <h2 class="section-head">A few things people ask</h2>
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <div class="q"><span>Do we need to change our current ATS or software?</span><span class="plus">+</span></div>
+      <div class="a">No. We work alongside whatever you already use. Your ATS stays exactly as it is. We simply take on the day-to-day tracking and chasing that currently falls to your team.</div>
+    </div>
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <div class="q"><span>What does the pilot actually cost?</span><span class="plus">+</span></div>
+      <div class="a">The pilot is offered at a significantly reduced rate, in exchange for close collaboration and honest feedback while we shape the service around what actually works. Exact terms are agreed individually. Get in touch and we'll talk it through.</div>
+    </div>
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <div class="q"><span>Which sectors do you work with?</span><span class="plus">+</span></div>
+      <div class="a">We work with recruitment and staffing agencies across regulated sectors, including healthcare, construction, education, and security. Anywhere placed workers need right-to-work, DBS, or licence renewals kept current.</div>
+    </div>
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <div class="q"><span>Do you check whether our documents are legally valid?</span><span class="plus">+</span></div>
+      <div class="a">No. We track, flag, and chase, but we don't make legal or compliance judgement calls on your behalf. That decision always sits with you and your agency. Our job is making sure nothing gets missed or forgotten.</div>
+    </div>
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <div class="q"><span>Does this guarantee we'll never face a compliance issue?</span><span class="plus">+</span></div>
+      <div class="a">No service can promise that, and we won't pretend otherwise. What we do is substantially reduce the risk of something slipping through, and put you in a far stronger position if you're ever audited.</div>
+    </div>
+  </div>
+</section>
+
+<div id="contact" class="contact-strip">
+  Questions before you get in touch properly? Email us directly at <a href="mailto:hello@endowr.co.uk">hello@endowr.co.uk</a>
+</div>
+
+<footer>
+  <div class="brand-group"><div class="logo-mark">E</div><span class="brand">Endowr.</span></div>
+  <div class="contact-label">Contact us</div>
+  <p><a href="mailto:hello@endowr.co.uk">hello@endowr.co.uk</a></p>
+  <div class="footer-links">
+    <a class="linkedin-link" href="https://instagram.com/_endowr" target="_blank" rel="noopener" aria-label="Endowr on Instagram">
+      <svg class="icon" viewBox="0 0 24 24"><use href="#ic-instagram"/></svg>
+    </a>
+    <a class="linkedin-link" href="https://linkedin.com/endowr" target="_blank" rel="noopener" aria-label="Endowr on LinkedIn">
+      <svg class="icon" viewBox="0 0 24 24"><use href="#ic-linkedin"/></svg>
+    </a>
+  </div>
+  <p class="copyright">&copy; 2026 Endowr. All rights reserved.</p>
+</footer>
+
+<script>
+  // Date-aware "Why now" section, stays accurate whichever side of 1 Oct 2026 it's viewed
+  (function() {
+    const cutoff = new Date('2026-10-01T00:00:00');
+    const now = new Date();
+    const headingEl = document.getElementById('why-now-heading');
+    const statusEl = document.getElementById('why-now-status');
+    const tlOngoing = document.getElementById('tl-ongoing');
+    const tlOctDate = document.getElementById('tl-oct-date');
+    if (now < cutoff) {
+      const daysLeft = Math.ceil((cutoff - now) / (1000 * 60 * 60 * 24));
+      statusEl.textContent = daysLeft + (daysLeft === 1 ? ' day remaining' : ' days remaining') + ' before the scope expands.';
+    } else {
+      headingEl.textContent = 'The rules changed on 1 October 2026.';
+      statusEl.textContent = 'This has been in effect since 1 October 2026.';
+      tlOngoing.classList.add('active');
+      tlOctDate.textContent = 'Scope expanded';
+    }
+  })();
+
+  const progressBar = document.getElementById('progress');
+  const toTopBtn = document.getElementById('toTop');
+  const gridEls = document.querySelectorAll('.hero, section:not(.pilot)');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement;
+    const scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
+    progressBar.style.width = scrolled + '%';
+    toTopBtn.classList.toggle('show', h.scrollTop > 500);
+    if (!reduceMotion) {
+      const y = h.scrollTop;
+      const pos = (y * 0.18) + 'px ' + (y * 0.09) + 'px';
+      gridEls.forEach(el => { el.style.backgroundPosition = pos + ', ' + pos; });
+    }
+  });
+
+  const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+  const io = new IntersectionObserver((entries) => { entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); }); }, { threshold: 0.15 });
+  revealEls.forEach(el => io.observe(el));
+
+  function staggerGroup(selector, delayStep) {
+    const group = document.querySelectorAll(selector);
+    const groupIO = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const items = entry.target.parentElement.querySelectorAll(selector);
+          items.forEach((item, i) => { setTimeout(() => item.classList.add('in'), i * delayStep); });
+          items.forEach(item => groupIO.unobserve(item));
+        }
+      });
+    }, { threshold: 0.2 });
+    group.forEach(el => groupIO.observe(el));
+  }
+  staggerGroup('.faq-item', 90);
+  staggerGroup('.pilot-box li', 100);
+
+  // Carousels
+  document.querySelectorAll('[data-carousel]').forEach(car => {
+    const track = car.querySelector('.carousel-track');
+    const slides = car.querySelectorAll('.carousel-slide');
+    const dotsWrap = car.querySelector('[data-dots]');
+    let index = 0;
+    slides.forEach((_, i) => {
+      const dot = document.createElement('button');
+      dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+      dot.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+      dot.addEventListener('click', () => goTo(i));
+      dotsWrap.appendChild(dot);
+    });
+    const dots = dotsWrap.querySelectorAll('.carousel-dot');
+    function goTo(i) {
+      index = (i + slides.length) % slides.length;
+      track.style.transform = 'translateX(-' + (index * 100) + '%)';
+      dots.forEach((d, di) => d.classList.toggle('active', di === index));
+    }
+    car.querySelector('[data-prev]').addEventListener('click', () => goTo(index - 1));
+    car.querySelector('[data-next]').addEventListener('click', () => goTo(index + 1));
+    let touchStartX = null;
+    track.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+    track.addEventListener('touchend', e => {
+      if (touchStartX === null) return;
+      const dx = e.changedTouches[0].clientX - touchStartX;
+      if (dx > 40) goTo(index - 1);
+      else if (dx < -40) goTo(index + 1);
+      touchStartX = null;
+    });
+  });
+
+  const statEl = document.getElementById('stat-figure');
+  let counted = false;
+  const statIO = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting && !counted) {
+        counted = true;
+        let val = 0; const target = 60000; const step = Math.ceil(target / 60);
+        const timer = setInterval(() => { val += step; if (val >= target) { val = target; clearInterval(timer); } statEl.textContent = '£' + val.toLocaleString(); }, 20);
+      }
+    });
+  }, { threshold: 0.4 });
+  statIO.observe(statEl);
+
+  function formatHoursLabel(h) {
+    if (h < 1) return Math.round(h * 60) + ' mins';
+    if (h === 1) return '1 hr';
+    return (h % 1 === 0 ? h : h.toFixed(2).replace(/0$/, '')) + ' hrs';
+  }
+  function updateCalc() {
+    const w = parseInt(document.getElementById('calcWorkers').value);
+    const perWorkerHours = parseFloat(document.getElementById('calcHoursSlider').value);
+    const r = parseInt(document.getElementById('calcRate').value);
+    document.getElementById('calcWorkersVal').textContent = w;
+    document.getElementById('calcMinutesVal').textContent = formatHoursLabel(perWorkerHours);
+    document.getElementById('calcRateVal').textContent = '£' + r;
+    const hours = w * perWorkerHours;
+    const cost = Math.round(hours * r);
+    document.getElementById('calcHours').textContent = hours.toFixed(1) + ' hrs';
+    document.getElementById('calcCost').textContent = '£' + cost.toLocaleString();
+    document.getElementById('calcAnnual').textContent = '£' + (cost * 12).toLocaleString();
+  }
+  updateCalc();
+
+  document.getElementById('pilot-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const name = document.getElementById('name').value;
+    const agency = document.getElementById('agency').value;
+    const email = document.getElementById('email').value;
+    const message = document.getElementById('message').value;
+    const subject = encodeURIComponent('Pilot partner interest: ' + agency);
+    const body = encodeURIComponent('Name: ' + name + '\n' + 'Agency: ' + agency + '\n' + 'Email: ' + email + '\n\n' + 'Message:\n' + (message || '(none provided)'));
+    window.location.href = 'mailto:hello@endowr.co.uk?subject=' + subject + '&body=' + body;
+  });
+</script>
+
+</body>
+</html>
