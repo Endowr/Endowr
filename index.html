@@ -270,6 +270,18 @@
   .blend-zone { height: 64px; margin-top: -64px; position: relative; pointer-events: none; }
   .blend-to-cream { background: linear-gradient(to bottom, rgba(255,255,255,0), var(--cream)); }
   .blend-to-white { background: linear-gradient(to bottom, rgba(247,243,239,0), #fff); }
+
+  /* Mobile: simplify top chrome so nothing wraps or overlaps */
+  @media (max-width: 680px) {
+    .utility-bar { display: none; }
+    nav { top: 0; }
+    .nav-links { gap: 10px; }
+    .nav-links .linkedin-link { display: none; }
+    .nav-links a.text-link { display: none; }
+    .brand { font-size: 17px; }
+    .logo-mark { width: 28px; height: 28px; font-size: 15px; }
+    nav a.cta { padding: 8px 13px; font-size: 13px; }
+  }
 </style>
 </head>
 <body>
