@@ -258,7 +258,7 @@
   }
   .post-card .post-icon {
     width: 76px; height: 76px; border-radius: 50%; background: rgba(255,255,255,0.14);
-    display: flex; align-items: center; justify-content: center; margin-bottom: 18px;
+    display: flex; align-items: center; justify-content: center; margin-bottom: 18px; flex-shrink: 0;
   }
   .post-card .post-icon svg { width: 38px; height: 38px; color: #fff; }
   .post-card h3 { font-size: clamp(24px, 3.4vw, 32px); color: #fff; margin: 0 0 10px; font-weight: 400; }
@@ -266,21 +266,45 @@
   .post-card .post-tag { position: relative; z-index: 1; font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.6); margin-bottom: 8px; }
   @media (max-width: 480px) { .post-card { aspect-ratio: 4 / 4.9; width: 88vw; padding: 26px 24px; } }
 
+  /* Laptop and up: wider, shorter card so the whole section fits comfortably in one view */
+  @media (min-width: 780px) {
+    .post-card {
+      width: min(700px, 64vw); aspect-ratio: auto; min-height: 300px;
+      flex-direction: row; align-items: center; gap: 36px;
+      padding: 44px 52px; justify-content: flex-start;
+    }
+    .post-card .big-num { font-size: 190px; top: -10px; left: 10px; }
+    .post-card .post-icon { width: 96px; height: 96px; margin-bottom: 0; }
+    .post-card .post-icon svg { width: 48px; height: 48px; }
+    .post-card .post-text { position: relative; z-index: 1; max-width: 420px; }
+    .post-card h3 { font-size: 34px; }
+    .post-card p { font-size: 16.5px; }
+  }
+
   /* Soft blended transitions between sections, instead of hard colour cuts */
   .blend-zone { height: 64px; margin-top: -64px; position: relative; pointer-events: none; }
   .blend-to-cream { background: linear-gradient(to bottom, rgba(255,255,255,0), var(--cream)); }
   .blend-to-white { background: linear-gradient(to bottom, rgba(247,243,239,0), #fff); }
 
-  /* Mobile: simplify top chrome so nothing wraps or overlaps */
+  /* Mobile: keep the bar and icons, pinned, just reflowed so nothing wraps or overlaps */
   @media (max-width: 680px) {
-    .utility-bar { display: none; }
-    nav { top: 0; }
-    .nav-links { gap: 10px; }
-    .nav-links .linkedin-link { display: none; }
+    .utility-bar .container {
+      justify-content: flex-start; overflow-x: auto; white-space: nowrap;
+      gap: 18px; padding: 0 16px; -webkit-overflow-scrolling: touch;
+    }
+    .utility-bar .container::-webkit-scrollbar { display: none; }
+    .utility-bar a { flex-shrink: 0; }
+    nav .container { padding-left: 16px; padding-right: 16px; }
+    .brand { font-size: 16px; }
+    .logo-mark { width: 26px; height: 26px; font-size: 14px; }
+    .nav-links { gap: 8px; }
     .nav-links a.text-link { display: none; }
-    .brand { font-size: 17px; }
-    .logo-mark { width: 28px; height: 28px; font-size: 15px; }
-    nav a.cta { padding: 8px 13px; font-size: 13px; }
+    .linkedin-link .icon { width: 17px; height: 17px; }
+    nav a.cta { padding: 7px 11px; font-size: 12.5px; }
+  }
+  @media (max-width: 360px) {
+    .brand { font-size: 15px; }
+    nav a.cta { padding: 6px 9px; font-size: 12px; }
   }
 </style>
 </head>
@@ -445,37 +469,45 @@
           <div class="carousel-slide">
             <div class="post-card">
               <div class="big-num">01</div>
-              <div class="post-tag">Step one</div>
               <div class="post-icon"><svg viewBox="0 0 24 24"><use href="#ic-inbox"/></svg></div>
-              <h3>Handover</h3>
-              <p>Once your team's onboarded a worker (contracts, bank details, induction all done), their file is simply passed to us. We're not part of that first step at all.</p>
+              <div class="post-text">
+                <div class="post-tag">Step one</div>
+                <h3>Handover</h3>
+                <p>Once your team's onboarded a worker (contracts, bank details, induction all done), their file is simply passed to us. We're not part of that first step at all.</p>
+              </div>
             </div>
           </div>
           <div class="carousel-slide">
             <div class="post-card">
               <div class="big-num">02</div>
-              <div class="post-tag">Step two</div>
               <div class="post-icon"><svg viewBox="0 0 24 24"><use href="#ic-search"/></svg></div>
-              <h3>Track</h3>
-              <p>We keep a live register of what's on file and what's missing or expiring: right-to-work documents, DBS certificates, licences, references. We flag gaps straight back to you.</p>
+              <div class="post-text">
+                <div class="post-tag">Step two</div>
+                <h3>Track</h3>
+                <p>We keep a live register of what's on file and what's missing or expiring: right-to-work documents, DBS certificates, licences, references. We flag gaps straight back to you.</p>
+              </div>
             </div>
           </div>
           <div class="carousel-slide">
             <div class="post-card">
               <div class="big-num">03</div>
-              <div class="post-tag">Step three</div>
               <div class="post-icon"><svg viewBox="0 0 24 24"><use href="#ic-bell"/></svg></div>
-              <h3>Chase</h3>
-              <p>We chase the worker directly for renewals, follow up until we get a response, and log everything back into your system, so your files stay current without your team lifting a finger.</p>
+              <div class="post-text">
+                <div class="post-tag">Step three</div>
+                <h3>Chase</h3>
+                <p>We chase the worker directly for renewals, follow up until we get a response, and log everything back into your system, so your files stay current without your team lifting a finger.</p>
+              </div>
             </div>
           </div>
           <div class="carousel-slide">
             <div class="post-card">
               <div class="big-num">04</div>
-              <div class="post-tag">Step four</div>
               <div class="post-icon"><svg viewBox="0 0 24 24"><use href="#ic-flag"/></svg></div>
-              <h3>Escalate</h3>
-              <p>If a worker stays unresponsive, or if something needs a judgement call, we bring it straight back to you. We don't make legal or compliance decisions on your behalf, ever.</p>
+              <div class="post-text">
+                <div class="post-tag">Step four</div>
+                <h3>Escalate</h3>
+                <p>If a worker stays unresponsive, or if something needs a judgement call, we bring it straight back to you. We don't make legal or compliance decisions on your behalf, ever.</p>
+              </div>
             </div>
           </div>
         </div>
@@ -498,9 +530,8 @@
 <section class="alt bg-diagonal">
   <div class="container reveal">
     <div class="eyebrow" style="margin-bottom:14px;">Why now</div>
-    <h2 class="section-head" id="why-now-heading">The rules are changing on 1 October 2026.</h2>
-    <p class="lead">Section 48 of the Border Security, Asylum and Immigration Act 2025 extends right-to-work checks beyond direct employees to agency workers, subcontractors, and gig workers. If you've only ever checked your core staff, that's about to change.</p>
-    <p class="lead" id="why-now-status" style="font-weight: 600; color: var(--burgundy); margin-top: -24px;"></p>
+    <h2 class="section-head">The rules are changing from 1 October 2026.</h2>
+    <p class="lead">Section 48 of the Border Security, Asylum and Immigration Act 2025 extends right-to-work checks beyond direct employees to agency workers, subcontractors, and gig workers. If you've only ever checked your core staff, this now applies to you too.</p>
     <div class="timeline">
       <div class="tl-point active" id="tl-today"><div class="tl-dot"></div><div class="tl-label">Today</div><div class="tl-date">Core staff checked</div></div>
       <div class="tl-point active" id="tl-oct"><div class="tl-dot"></div><div class="tl-label">1 Oct 2026</div><div class="tl-date" id="tl-oct-date">Scope expands</div></div>
@@ -665,25 +696,6 @@
 </footer>
 
 <script>
-  // Date-aware "Why now" section, stays accurate whichever side of 1 Oct 2026 it's viewed
-  (function() {
-    const cutoff = new Date('2026-10-01T00:00:00');
-    const now = new Date();
-    const headingEl = document.getElementById('why-now-heading');
-    const statusEl = document.getElementById('why-now-status');
-    const tlOngoing = document.getElementById('tl-ongoing');
-    const tlOctDate = document.getElementById('tl-oct-date');
-    if (now < cutoff) {
-      const daysLeft = Math.ceil((cutoff - now) / (1000 * 60 * 60 * 24));
-      statusEl.textContent = daysLeft + (daysLeft === 1 ? ' day remaining' : ' days remaining') + ' before the scope expands.';
-    } else {
-      headingEl.textContent = 'The rules changed on 1 October 2026.';
-      statusEl.textContent = 'This has been in effect since 1 October 2026.';
-      tlOngoing.classList.add('active');
-      tlOctDate.textContent = 'Scope expanded';
-    }
-  })();
-
   const progressBar = document.getElementById('progress');
   const toTopBtn = document.getElementById('toTop');
   const gridEls = document.querySelectorAll('.hero, section:not(.pilot)');
